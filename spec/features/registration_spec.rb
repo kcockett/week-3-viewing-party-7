@@ -24,4 +24,17 @@ RSpec.describe "User Registration" do
     expect(current_path).to eq(register_path)
     expect(page).to have_content("Email has already been taken")
   end
+
+  describe "*Authentication Challenge*" do
+    describe "As a visitor, When I visit '/register'" do
+      it "I see a form to fill in my name, email, password, and password confirmation." do
+        visit register_path
+
+        expect(page).to have_css("#registration_form")
+        within "#registration_form" do
+          #
+        end
+      end
+    end
+  end
 end
