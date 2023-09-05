@@ -49,22 +49,22 @@ RSpec.describe "User Registration" do
     fill_in :user_password, with:'Password'
     fill_in :user_password_confirmation, with:'Password'
     click_button 'Create New User'
-
+    
     expect(current_path).to eq(register_path)
-    expect(page).to have_content("Validation failed:  Missing Name")
+    expect(page).to have_content("Name can't be blank")
   end
-
+  
   it "SAD PATH - missing email" do
     visit register_path
     fill_in :user_name, with: 'User One'
     fill_in :user_password, with:'Password'
     fill_in :user_password_confirmation, with:'Password'
     click_button 'Create New User'
-
+    
     expect(current_path).to eq(register_path)
-    expect(page).to have_content("Validation failed:  Missing Email")
+    expect(page).to have_content("Email can't be blank")
   end
-
+  
   it "SAD PATH - non-matching passwords" do
     visit register_path
     fill_in :user_name, with: 'User One'
@@ -72,8 +72,9 @@ RSpec.describe "User Registration" do
     fill_in :user_password, with:'Password'
     fill_in :user_password_confirmation, with:'NotPassword'
     click_button 'Create New User'
+    save_and_open_page
 
     expect(current_path).to eq(register_path)
-    expect(page).to have_content("Validation failed:  Password verification failed")
+    expect(page).to have_content("Password confirmation doesn't match Password")
   end
 end
