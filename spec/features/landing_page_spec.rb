@@ -66,8 +66,7 @@ RSpec.describe 'Landing Page' do
     # And I can see a flash message telling me that I entered incorrect credentials.
 
     it "should show credential failure" do
-      save_and_open_page
-      click_link "User Dashboard"
+      click_link "user1@test.com"
 
       expect(current_path).to eq login_path
 
@@ -76,28 +75,28 @@ RSpec.describe 'Landing Page' do
       click_button "Log In"
 
       expect(current_path).to eq login_path
-      expect(page).to have_content("You have entered incorrect credentials.")
+      expect(page).to have_content("Sorry, your credentials are bad.")
 
       fill_in :email, with: "IncorrectEmail@test.com"
       fill_in :password, with: "password"
       click_button "Log In"
 
       expect(current_path).to eq login_path
-      expect(page).to have_content("You have entered incorrect credentials.")
+      expect(page).to have_content("Sorry, your credentials are bad.")
 
       # omit email
       fill_in :password, with: "WrongPassword"
       click_button "Log In"
 
       expect(current_path).to eq login_path
-      expect(page).to have_content("You have entered incorrect credentials.")
+      expect(page).to have_content("Sorry, your credentials are bad.")
 
       fill_in :email, with: @user1.email
       # omit password
       click_button "Log In"
 
       expect(current_path).to eq login_path
-      expect(page).to have_content("You have entered incorrect credentials.")
+      expect(page).to have_content("Sorry, your credentials are bad.")
     end
   end
 end
