@@ -50,10 +50,10 @@ RSpec.describe 'Landing Page' do
 
     it "have a login form which verifies the user and redirects to Dashboard page" do
       visit login_path
-      fill_in "email", with: @user.email
-      fill_in "password", with: "password"
+      fill_in :email, with: @user1.email
+      fill_in :password, with: "password"
       click_on "Log In"
-
+      
       expect(current_path).to eq user_path(@user1.id)
     end
   end
