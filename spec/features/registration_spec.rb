@@ -72,7 +72,6 @@ RSpec.describe "User Registration" do
     fill_in :user_password, with:'Password'
     fill_in :user_password_confirmation, with:'NotPassword'
     click_button 'Create New User'
-    save_and_open_page
 
     expect(current_path).to eq(register_path)
     expect(page).to have_content("Password confirmation doesn't match Password")
