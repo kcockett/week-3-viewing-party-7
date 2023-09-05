@@ -16,6 +16,13 @@ RSpec.describe "User Registration" do
     fill_in :user_password, with:'Password'
     fill_in :user_password_confirmation, with:'Password'
     click_button 'Create New User'
+
+    # Log in the user
+    visit login_path
+    fill_in :email, with: "user1@example.com"
+    fill_in :password, with: "Password"
+    click_on "Log In"
+    # redirects to the user dashboard
     
     expect(current_path).to eq(user_path(User.last.id))
     expect(page).to have_content("User One's Dashboard")

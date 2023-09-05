@@ -4,7 +4,11 @@ class UsersController <ApplicationController
   end 
 
   def show 
-    @user = User.find(params[:id])
+    if current_user
+      @user = User.find(params[:id])
+    else
+      redirect_to login_path
+    end
   end 
 
   def create 
@@ -22,14 +26,19 @@ class UsersController <ApplicationController
   end
 
   def login_user
-    user = User.find_by(email: params[:email])
-    if user.authenticate(params[:password])
-      session[:user_id] = user.id
-      flash[:success] = "Welcome, #{user.email}!"
-      redirect_to user_path(user)
-    else
+    if !login_params[:email] || !login_params[:password] || !User.exists?(email: login_params[:email])
       flash[:error] = "Sorry, your credentials are bad."
       render :login_form
+    else
+      user = User.find_by(email: login_params[:email])
+      if user.authenticate(login_params[:password])
+        session[:user_id] = user.id
+        flash[:success] = "Welcome, #{user.email}!"
+        redirect_to user_path(user)
+      else
+        flash[:error] = "Sorry, your credentials are bad."
+        render :login_form
+      end
     end
   end
 
@@ -38,4 +47,8 @@ class UsersController <ApplicationController
   def user_params 
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end 
+
+  def login_params
+    params.permit(:email, :password)
+  end
 end 
