@@ -68,7 +68,6 @@ RSpec.describe 'Landing Page' do
     
     # *** Removed by Challenge2 Pt2 US1 ***
     # it "should show credential failure" do
-    #   save_and_open_page
     #   click_link "user1@test.com"
       
     #   expect(current_path).to eq login_path
@@ -145,10 +144,16 @@ RSpec.describe 'Landing Page' do
       # user is now logged in
 
       expect(page).to have_content('Existing Users:')
-      save_and_open_page
       within ".existing-users" do
         expect(page).not_to have_css('a')
       end
+    end
+    it "US3 As a visitor, When I visit the landing page, And then try to visit '/dashboard', I remain on the landing page, And I see a message telling me that I must be logged in or registered to access my dashboard" do
+      visit root_path
+      visit "/dashboard"
+
+      expect(current_path).to eq root_path
+      expect(page).to have_content("You must be logged in or registered to access your dashboard")
     end
   end
 end
