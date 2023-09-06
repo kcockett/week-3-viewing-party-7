@@ -135,5 +135,20 @@ RSpec.describe 'Landing Page' do
       visit root_path
       expect(page).to_not have_content('Existing Users:')
     end
+    it "US2 As a registered user, When I visit the landing page,The list of existing users is no longer a link to their show pages
+    But just a list of email addresses" do
+      visit login_path
+      fill_in :email, with: @user1.email
+      fill_in :password, with: "password"
+      click_on "Log In"
+      visit root_path
+      # user is now logged in
+
+      expect(page).to have_content('Existing Users:')
+      save_and_open_page
+      within ".existing-users" do
+        expect(page).not_to have_css('a')
+      end
+    end
   end
 end
