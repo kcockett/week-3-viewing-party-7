@@ -127,4 +127,10 @@ RSpec.describe 'Landing Page' do
       expect(page).to_not have_link('Log Out')
     end
   end
+  describe "*** Authentication Challenge2 Pt2 ***" do
+    it "US1 As a visitor When I visit the landing page I do not see the section of the page that lists existing users" do
+      visit root_path
+      expect(page).to_not have_content('Existing Users:')
+    end
+  end
 end
