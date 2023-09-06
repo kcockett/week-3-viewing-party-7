@@ -31,7 +31,7 @@ RSpec.describe 'Landing Page' do
     end     
   end 
 
-  describe "*** Authentication Challenge US3 ***" do
+  describe "*** Authentication Challenge1 US3 ***" do
     # As a registered user
     # When I visit the landing page `/`
     # I see a link for "Log In"
@@ -57,46 +57,74 @@ RSpec.describe 'Landing Page' do
       expect(current_path).to eq user_path(@user1.id)
     end
   end
-  describe "*** Authentication Challenge US4 ***" do
+  describe "*** Authentication Challenge1 US4 ***" do
     # As a registered user
     # When I visit the landing page `/`
     # And click on the link to go to my dashboard
     # And fail to fill in my correct credentials 
     # I'm taken back to the Log In page
     # And I can see a flash message telling me that I entered incorrect credentials.
-
+    
     it "should show credential failure" do
       click_link "user1@test.com"
-
+      
       expect(current_path).to eq login_path
-
+      
       fill_in :email, with: @user1.email
       fill_in :password, with: "WrongPassword"
       click_button "Log In"
-
+      
       expect(current_path).to eq login_path
       expect(page).to have_content("Sorry, your credentials are bad.")
-
+      
       fill_in :email, with: "IncorrectEmail@test.com"
       fill_in :password, with: "password"
       click_button "Log In"
-
+      
       expect(current_path).to eq login_path
       expect(page).to have_content("Sorry, your credentials are bad.")
-
+      
       # omit email
       fill_in :password, with: "WrongPassword"
       click_button "Log In"
-
+      
       expect(current_path).to eq login_path
       expect(page).to have_content("Sorry, your credentials are bad.")
-
+      
       fill_in :email, with: @user1.email
       # omit password
       click_button "Log In"
-
+      
       expect(current_path).to eq login_path
       expect(page).to have_content("Sorry, your credentials are bad.")
+    end
+  end
+  describe "*** Authentication Challenge2 Pt1 ***" do
+    # As a logged in user 
+    # When I visit the landing page
+    # I no longer see a link to Log In or Create an Account
+    # But I see a link to Log Out.
+    # When I click the link to Log Out
+    # I'm taken to the landing page
+    # And I can see that the Log Out link has changed back to a Log In link
+
+    it "should have a link to 'Log Out' which takes me to the landing page" do
+      visit login_path
+      fill_in :email, with: @user1.email
+      fill_in :password, with: "password"
+      click_on "Log In"
+      visit root_path
+
+      expect(page).to_not have_link('Log In')
+      expect(page).to_not have_link('Create New User')
+      expect(page).to have_link('Log Out')
+      
+      click_link "Log Out"
+      
+      expect(current_path).to eq root_path
+      expect(page).to have_link('Log In')
+      expect(page).to have_button('Create New User')
+      expect(page).to_not have_link('Log Out')
     end
   end
 end
