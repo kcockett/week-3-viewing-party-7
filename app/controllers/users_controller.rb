@@ -7,7 +7,8 @@ class UsersController <ApplicationController
     if current_user
       @user = User.find(params[:id])
     else
-      redirect_to login_path
+      flash[:error] = "You must be logged in or registered to access your dashboard."
+      redirect_to root_path
     end
   end 
 

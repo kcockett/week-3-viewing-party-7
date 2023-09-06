@@ -66,41 +66,41 @@ RSpec.describe 'Landing Page' do
     # I'm taken back to the Log In page
     # And I can see a flash message telling me that I entered incorrect credentials.
     
-    # *** Removed by Challenge2 Pt2 US1 ***
-    # it "should show credential failure" do
-    #   save_and_open_page
-    #   click_link "user1@test.com"
+    it "should show credential failure" do
+      # *** Modified by Challenge2 Pt2 US1 ***
+      #click_link "user1@test.com"
+      visit login_path
       
-    #   expect(current_path).to eq login_path
+      expect(current_path).to eq login_path
       
-    #   fill_in :email, with: @user1.email
-    #   fill_in :password, with: "WrongPassword"
-    #   click_button "Log In"
+      fill_in :email, with: @user1.email
+      fill_in :password, with: "WrongPassword"
+      click_button "Log In"
       
-    #   expect(current_path).to eq login_path
-    #   expect(page).to have_content("Sorry, your credentials are bad.")
+      expect(current_path).to eq login_path
+      expect(page).to have_content("Sorry, your credentials are bad.")
       
-    #   fill_in :email, with: "IncorrectEmail@test.com"
-    #   fill_in :password, with: "password"
-    #   click_button "Log In"
+      fill_in :email, with: "IncorrectEmail@test.com"
+      fill_in :password, with: "password"
+      click_button "Log In"
       
-    #   expect(current_path).to eq login_path
-    #   expect(page).to have_content("Sorry, your credentials are bad.")
+      expect(current_path).to eq login_path
+      expect(page).to have_content("Sorry, your credentials are bad.")
       
-    #   # omit email
-    #   fill_in :password, with: "WrongPassword"
-    #   click_button "Log In"
+      # omit email
+      fill_in :password, with: "WrongPassword"
+      click_button "Log In"
       
-    #   expect(current_path).to eq login_path
-    #   expect(page).to have_content("Sorry, your credentials are bad.")
+      expect(current_path).to eq login_path
+      expect(page).to have_content("Sorry, your credentials are bad.")
       
-    #   fill_in :email, with: @user1.email
-    #   # omit password
-    #   click_button "Log In"
+      fill_in :email, with: @user1.email
+      # omit password
+      click_button "Log In"
       
-    #   expect(current_path).to eq login_path
-    #   expect(page).to have_content("Sorry, your credentials are bad.")
-    # end
+      expect(current_path).to eq login_path
+      expect(page).to have_content("Sorry, your credentials are bad.")
+    end
   end
   describe "*** Authentication Challenge2 Pt1 ***" do
     # As a logged in user 
@@ -145,10 +145,16 @@ RSpec.describe 'Landing Page' do
       # user is now logged in
 
       expect(page).to have_content('Existing Users:')
-      save_and_open_page
       within ".existing-users" do
         expect(page).not_to have_css('a')
       end
+    end
+    it "US3 As a visitor, When I visit the landing page, And then try to visit '/dashboard', I remain on the landing page, And I see a message telling me that I must be logged in or registered to access my dashboard" do
+      visit root_path
+      visit "/dashboard"
+
+      expect(current_path).to eq root_path
+      expect(page).to have_content("You must be logged in or registered to access your dashboard.")
     end
   end
 end
