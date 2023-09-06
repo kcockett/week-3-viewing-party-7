@@ -153,7 +153,7 @@ RSpec.describe 'Landing Page' do
       visit "/dashboard"
 
       expect(current_path).to eq root_path
-      expect(page).to have_content("You must be logged in or registered to access your dashboard")
+      expect(page).to have_content("You must be logged in or registered to access your dashboard.")
     end
   end
 end
