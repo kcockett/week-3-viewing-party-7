@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 	post "/login", to: "users#login_user"
   get "/logout", to: "users#logout"
   get "/dashboard", to: "users#show"
+  get "/movies/dummy_show_page", to: "movies#dummy_show"
+  get "/movies/dummy_create_party", to: "movies#dummy_create_party"
 
   resources :users, only: :show
 end
