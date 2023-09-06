@@ -123,7 +123,7 @@ RSpec.describe 'Landing Page' do
       
       expect(current_path).to eq root_path
       expect(page).to have_link('Log In')
-      expect(page).to have_link('Create New User')
+      expect(page).to have_button('Create New User')
       expect(page).to_not have_link('Log Out')
     end
   end
